@@ -1,6 +1,10 @@
-import { Routes, Route, useNavigate } from 'react-router-dom';
 import RegisterForm from './components/Register';
 import './App.css';
+//import { useState } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'; //enable page routing
+import Layout from './Layout';
+import Home from './pages/Home';
+import About from './pages/About';
 
 // HomePage component
 function HomePage() {
@@ -19,15 +23,14 @@ function HomePage() {
 }
 
 // App component
-function App() {
+export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<Layout />} />
+      <Route index element={<Home />} />
+      <Route path="about" element={<About />} />
       <Route path="/register" element={<RegisterForm />} />
     </Routes>
   );
 }
-
-export default App;
-
 
