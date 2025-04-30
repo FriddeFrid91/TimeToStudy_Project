@@ -3,8 +3,14 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import userRoute from './routes/userRoute.js';
 import mongoose from 'mongoose';
-dotenv.config();
+import path from 'path';
+import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// exakt path till .env när du kör från root
+dotenv.config({ path: path.resolve(__dirname, './.env') });
 
 const DB_PORT = process.env.PORT || 5000;
 const DB_MONGODB = process.env.MONGO_URI;

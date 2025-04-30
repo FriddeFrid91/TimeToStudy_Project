@@ -1,5 +1,5 @@
 import RegisterForm from './components/Register';
-import './App.css';
+import './styles/App.css';
 //import { useState } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'; //enable page routing
 import Layout from './Layout';
@@ -26,10 +26,11 @@ function HomePage() {
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />} />
-      <Route index element={<Home />} />
-      <Route path="about" element={<About />} />
-      <Route path="/register" element={<RegisterForm />} />
+      <Route path="/" element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="about" element={<About />} />
+        <Route path="/register" element={<RegisterForm />} />
+      </Route>
     </Routes>
   );
 }
