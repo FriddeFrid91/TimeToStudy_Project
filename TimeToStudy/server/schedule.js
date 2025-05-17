@@ -153,6 +153,15 @@ mongoose.connect(DB_MONGODB)
     console.log('MongoDB connected');
 
   app.listen(DB_PORT, () => {
+    // ✅ Add this to list the files inside the deployed schedules folder
+    const schedulePath = path.join(__dirname, '../schedules');
+    fs.readdir(schedulePath, (err, files) => {
+      if (err) {
+        console.error('❌ Could not read /schedules folder:', err);
+      } else {
+        console.log('📁 Contents of /schedules folder:', files);
+      }
+    });
 
     console.log(`Server is live on port ${DB_PORT}..`);
 });
