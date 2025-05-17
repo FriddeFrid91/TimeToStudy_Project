@@ -131,9 +131,6 @@ app.use('/api/admin', adminRoute);
 
 // ✅ Your test route (add here temporarily)
 app.get('/test-file', (req, res) => {
-  const fs = require('fs');
-  const path = require('path');
-
   const testPath = path.join(__dirname, '../schedules/hkr_data_year2.ics');
   fs.access(testPath, fs.constants.F_OK, (err) => {
     if (err) return res.status(404).send('File not found on server');
