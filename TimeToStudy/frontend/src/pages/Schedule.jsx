@@ -20,7 +20,7 @@ function School_sch() {
 
   const handleGetICSData = async (file) => {
   try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/ics?file=${file}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}api/ics?file=${file}`, {
       method: 'GET',
       credentials: 'include', // include if using cookies
     });
