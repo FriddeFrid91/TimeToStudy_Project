@@ -61,11 +61,14 @@ function ScheduleByMonth() {
       return;
     }
 
-    const filename = `schedules/${school}_${program}_year${year}.ics`;
+    const filename = `${school}_${program}_year${year}.ics`;
     setLoading(true);
 
     try {
       const response = await fetch(`/api/ics?file=${filename}`);
+      if (!response.ok) {
+        throw new Error('Schedule file not found');
+      }
       const data = await response.json();
 
       // Filter by month
