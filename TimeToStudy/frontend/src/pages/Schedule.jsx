@@ -18,12 +18,12 @@ function School_sch() {
   const [program, setProgram] = useState('');
   const [year, setYear] = useState('');
 
-  const handleGetICSData = async (file) => {
+ const handleGetICSData = async (file) => {
   try {
-    const safeFileName = file.split('/').pop(); // Remove "schedules/" if present
+    const safeFileName = file.split('/').pop();
     const response = await fetch(`${import.meta.env.VITE_API_URL}/ics?file=${safeFileName}`, {
       method: 'GET',
-      credentials: 'include', // Include only if using sessions/cookies
+      credentials: 'include', // only if using cookies/session
     });
 
     const contentType = response.headers.get('content-type');
@@ -32,14 +32,21 @@ function School_sch() {
     }
 
     const data = await response.json();
+
+    // Convert JS object (array of events) to JSON string with indentation for readability
+    const jsonString = JSON.stringify(data, null, 2);
+
+    console.log("ICS Data as JSON string:\n", jsonString);
+
+    // You can still set events as the JS object for your app
     setEvents(data);
   } catch (error) {
     console.error('Error fetching .ics data:', error.message);
     alert(`Failed to load schedule: ${error.message}`);
     setEvents([]);
-
   }
 };
+
 
 
 

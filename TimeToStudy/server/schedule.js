@@ -34,34 +34,24 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://timetostudy-project-1.onrender.com', // 👈 your deployed frontend URL
+  'https://timetostudy-project-1.onrender.com',
   'https://timetostudy-project-1-nrbu.onrender.com', // ✅ your actual frontend domain
   'https://timetostudy-project-2.onrender.com',
   'https://time2study-qxiv.onrender.com', // ✅ Add this if missing
   'https://timetostudy.onrender.com',     // ✅ Your backend domain (optional)
-  'https://timetostudy-project-ipw2.onrender.com',
-  'https://timetostudy-project-1-rlke.onrender.com'
 ];
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-};
-
-app.use(cors(corsOptions)); //origin: app.use(cors('*', corsOptions));
+//cors config. allows cookies and frontend to connect.
+app.use(cors({
+  origin: allowedOrigins, // Replace with your frontend URL?
+  credentials: true, //allow cookies
+}));
 
 app.use(express.json());
 app.use(cookieParser());
 
 // Teseting Static folder for .ics files
-
 app.use('/schema', express.static(path.join(__dirname, '../schedules')));
-
 
 app.get('/', (req, res) => {
   res.send("Time To Study");
@@ -73,10 +63,7 @@ app.get('/api/ics', (req, res) => {
     return res.status(400).json({ error: 'No file specified' });
   }
 
-
-  const safeFileName = path.basename(fileName); // Strips dangerous paths
-  const icsFilePath = path.join(__dirname, '../schedules', safeFileName); //origin: const icsFilePath = path.join(__dirname, fileName);
-
+  const icsFilePath = path.join(__dirname, '../schedules', fileName); //changes correct file
 
   fs.readFile(icsFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -131,21 +118,6 @@ app.get('/api/ics', (req, res) => {
 // Routes
 app.use('/api/users', userRoute);
 app.use('/api/admin', adminRoute); 
-
-
-// ✅ Your test route (add here temporarily)
-app.get('/test-file', (req, res) => {
-  const fs = require('fs');
-  const path = require('path');
-
-  const testPath = path.join(__dirname, '../schedules/hkr_data_year2.ics');
-  fs.access(testPath, fs.constants.F_OK, (err) => {
-    if (err) return res.status(404).send('File not found on server');
-    res.send('✅ File exists on server');
-  });
-});
-
-
 
 // MongoDB Connection
 
