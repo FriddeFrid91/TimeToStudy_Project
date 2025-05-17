@@ -20,17 +20,15 @@ function School_sch() {
 
   const handleGetICSData = async (file) => {
   try {
-    // Always pass only the base file name
-    const safeFileName = file.split('/').pop(); // strips "schedules/" if it exists
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ics?file=${safeFileName}`, {
+    const safeFileName = file.split('/').pop(); // Remove "schedules/" if present
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/ics?file=${safeFileName}`, {
       method: 'GET',
-      credentials: 'include', // include if using cookies
+      credentials: 'include', // Include only if using sessions/cookies
     });
 
     const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new Error("Invalid response: Not JSON");
+    if (!contentType?.includes('application/json')) {
+      throw new Error('Invalid response: not JSON');
     }
 
     const data = await response.json();
@@ -38,9 +36,11 @@ function School_sch() {
   } catch (error) {
     console.error('Error fetching .ics data:', error.message);
     alert(`Failed to load schedule: ${error.message}`);
-    setEvents([]); // Clear any old data
+    setEvents([]);
   }
 };
+
+
 
   // Navigation functions
   const nextWeek = () => {
@@ -72,9 +72,7 @@ function School_sch() {
         handleGetICSData={handleGetICSData} 
       />
 
-   
 
-   
 
       {/* Schedule Table */}
       {events.length > 0 || studyEvents.length > 0 ? (

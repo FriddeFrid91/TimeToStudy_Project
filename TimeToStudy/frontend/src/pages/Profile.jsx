@@ -11,33 +11,38 @@ export default function Profile() {
 
   const [password, setPassword] = useState('');
 
-  const[newPassword, setNewPassword] = useState('');
-  const[confirmPassword, setConfirmPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [currentPassword, setCurrentPassword] = useState('');
 
+  const [showPasswords, setShowPasswords] = useState(false); // Added by Frida
 
-  const [showPasswords, setShowPasswords] = useState(false); //Added by Frida
-
-  const navigate = useNavigate(); //Added by Frida, do we want to navigate to login after successfully changed passwords?
+  const navigate = useNavigate(); // Added by Frida, do we want to navigate to login after successfully changed passwords?
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL; //This points to the backend.
-    console.log("Testing if API URL works: ", apiUrl);
-
+    const apiUrl = import.meta.env.VITE_API_URL; // This points to the backend.
+    console.log("Testing if API URL works:", apiUrl);
     console.log("changePassword function called");
     console.log("newPassword:", newPassword);
-    console.log("Testing if API URL works: ", apiUrl);
 
     const fetchUserProfile = async () => {
       try {
-        const response = await authorizedFetch(`${apiUrl}/users/profile`, {
+        const response = await authorizedFetch(`${apiUrl}/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Include the token in the request headers
           },
         });
+
+        // Check if response is JSON before parsing
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error("Server did not return JSON. Check the API URL or backend.");
+        }
+
         const data = await response.json();
-        console.log(data); // see success message from backend
+
+        console.log(data); // See success message from backend
         setUsername(data.username);
         setFirstname(data.firstname);
         setLastname(data.lastname);
@@ -47,10 +52,11 @@ export default function Profile() {
         console.error('Error:', err);
       }
     };
+
     fetchUserProfile();
   }, []);
 
-
+  // Handle input field changes for new and confirm password
   let handlePasswordChange = (e) => {
     const { name, value } = e.target;
     if (name === 'newPassword') {
@@ -60,10 +66,11 @@ export default function Profile() {
     }
   };
 
+  // Change password function
   let changePassword = async (e) => {
-    e.preventDefault(); //Web reader plz don't do default action of the form. Let me handle it.
-    const apiUrl = import.meta.env.VITE_API_URL; //This points to the backend.
-    console.log("Testing if API URL works: ", apiUrl);   
+    e.preventDefault(); // Web reader plz don't do default action of the form. Let me handle it.
+    const apiUrl = import.meta.env.VITE_API_URL; // This points to the backend.
+    console.log("Testing if API URL works:", apiUrl);
 
     if (newPassword !== confirmPassword) {
       alert("New password and confirm password do not match.");
@@ -89,7 +96,7 @@ export default function Profile() {
     if (!passwordRegex.test(newPassword)) {
       alert("Password must be at least 8 characters long and include:\n- at least one lowercase letter\n- at least one number\n- at least one special character (!@#$%^&*)\n- only letters, numbers, and these special characters are allowed");
       return;
-}
+    }
 
     try {
       const response = await authorizedFetch(`${apiUrl}/change-password`, {
@@ -98,28 +105,34 @@ export default function Profile() {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Include the token in the request headers
           'Content-Type': 'application/json',
         },
-
         body: JSON.stringify({ currentPassword, newPassword }),
-
       });
+
+      // Check content type before parsing
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error("Server did not return JSON. Check the API URL or backend.");
+      }
+
       const data = await response.json();
-      console.log(data); // see success message from backend
+      console.log(data); // See success message from backend
+
       if (response.ok) {
         alert('Password changed successfully!');
-         // empty the password fields
-         setNewPassword('');
-         setConfirmPassword('');
-         setCurrentPassword('');
-         //localStorage.removeItem('accessToken'); // log
-         navigate('/login'); // send to login
-
+        // Empty the password fields
+        setNewPassword('');
+        setConfirmPassword('');
+        setCurrentPassword('');
+        // localStorage.removeItem('accessToken'); // log
+        navigate('/login'); // Send to login
       } else {
         alert(data.message || 'Password change failed');
       }
+
     } catch (err) {
       console.error('Error:', err);
     }
-  }
+  };
 
   return (
     <div className="profile-page">
@@ -129,43 +142,44 @@ export default function Profile() {
         <p><strong>Full Name:</strong> {firstname}</p>
         <p><strong>Last Name:</strong> {lastname}</p>
         <p><strong>Email:</strong> {email}</p>
-        
 
         <p><strong>Change Password:</strong></p>
         <form onSubmit={changePassword}>
-        
-        <input
-        type={showPasswords ? "text" : "password"}
-        placeholder="Current Password"
-        value={currentPassword}
-        onChange={(e) => setCurrentPassword(e.target.value)}
-        name="currentPassword"
-        required
-        />
-     
-        <input
-          type={showPasswords ? "text" : "password"}
-          placeholder="New Password"
-          value={newPassword}
-          onChange={handlePasswordChange}
-          name="newPassword"
-          required
-        /> 
-        <input
-          type={showPasswords ? "text" : "password"}
-          placeholder="Re-enter New Password"
-          value={confirmPassword}
-          onChange={handlePasswordChange}
-          name="confirmPassword"
-          required
-        /> 
-        <button type="button" onClick={() => setShowPasswords(!showPasswords)}>
-          {showPasswords ? "🙈" : "👁️"} </button>
 
-        <button type="submit">Change Password</button>
+          <input
+            type={showPasswords ? "text" : "password"}
+            placeholder="Current Password"
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
+            name="currentPassword"
+            required
+          />
+
+          <input
+            type={showPasswords ? "text" : "password"}
+            placeholder="New Password"
+            value={newPassword}
+            onChange={handlePasswordChange}
+            name="newPassword"
+            required
+          />
+
+          <input
+            type={showPasswords ? "text" : "password"}
+            placeholder="Re-enter New Password"
+            value={confirmPassword}
+            onChange={handlePasswordChange}
+            name="confirmPassword"
+            required
+          />
+
+          <button type="button" onClick={() => setShowPasswords(!showPasswords)}>
+            {showPasswords ? "🙈" : "👁️"}
+          </button>
+
+          <button type="submit">Change Password</button>
         </form>
-
-    </div>
+      </div>
     </div>
   );
 }
