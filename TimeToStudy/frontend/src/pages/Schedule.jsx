@@ -18,31 +18,23 @@ function School_sch() {
   const [program, setProgram] = useState('');
   const [year, setYear] = useState('');
 
-  const handleGetICSData = async () => {
+  const handleGetICSData = async (file) => {
   try {
-    const response = await fetch(`${apiUrl}/api/ics?file=${selectedFile}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/ics?file=${file}`, {
       method: 'GET',
-      credentials: 'include',
+      credentials: 'include', // include if using cookies
     });
 
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
-      throw new Error("Server did not return JSON. Check the API URL or backend.");
+      throw new Error("Invalid response: Not JSON");
     }
 
     const data = await response.json();
-
-    if (response.ok) {
-      console.log('ICS data:', data);
-      // Example: set state or update UI with `data`
-      setEvents(data);
-      alert("Schedule loaded successfully!");
-    } else {
-      alert(data.message || "Failed to load schedule.");
-    }
-  } catch (err) {
-    console.error('ICS fetch error:', err.message);
-    alert(`Error loading schedule: ${err.message}`);
+    setEvents(data);
+  } catch (error) {
+    console.error('Error fetching .ics data:', error.message);
+    alert(`Failed to load schedule: ${error.message}`);
   }
 };
 
