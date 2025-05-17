@@ -36,17 +36,22 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch(`${apiUrl}/login`, {
+      const response = await fetch(`${apiUrl}/api/users/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
         body: JSON.stringify({ username, password, role: 'user' }),
       });
 
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error("Server did not return JSON. Check the API URL or backend.");
+      }
+
       const data = await response.json();
-      console.log('🎟️ accessToken:', data.accessToken);
-  
+
       if (response.ok) {
+        console.log('🎟️ accessToken:', data.accessToken);
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('isAdmin', 'false');
         alert("You're logged in!");
@@ -55,7 +60,8 @@ export default function Login() {
         alert(data.message || "Login failed");
       }
     } catch (err) {
-      console.error('Error:', err);
+      console.error('❌ Login error:', err.message);
+      alert(`Login error: ${err.message}`);
     }
   };
 
