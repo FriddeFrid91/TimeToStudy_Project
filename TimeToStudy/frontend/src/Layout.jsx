@@ -5,7 +5,7 @@ import './styles/Home.css';
 import { useState } from 'react';
 
 // ✅ Import images correctly from src/assets
-import logo from './assets/logo.png';
+import logo from './assets/logo (1).png';
 import homeIcon from './assets/home.png';
 import aboutIcon from './assets/about-us.png';
 
