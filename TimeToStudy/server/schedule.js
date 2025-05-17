@@ -72,7 +72,7 @@ app.get('/api/ics', (req, res) => {
   }
 
   const safeFileName = path.basename(fileName); // Strips dangerous paths
-  const icsFilePath = path.join(__dirname, '../schedules', safeFileName);
+  const icsFilePath = path.join(__dirname, '../schedules', safeFileName); //origin: const icsFilePath = path.join(__dirname, fileName);
 
   fs.readFile(icsFilePath, 'utf8', (err, data) => {
     if (err) {
