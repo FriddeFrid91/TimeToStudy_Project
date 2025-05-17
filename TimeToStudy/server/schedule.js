@@ -15,7 +15,7 @@ import adminRoute from './routes/adminRoute.js'; // <-- New import
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-dotenv.config({ path: join(__dirname, '.env') });
+
 
 const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
 dotenv.config({ path: join(__dirname, envFile) });
