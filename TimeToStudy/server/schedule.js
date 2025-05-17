@@ -25,13 +25,18 @@ const DB_PORT = process.env.PORT || 5000;
 const DB_MONGODB = process.env.MONGO_URI;
 
 console.log("URI from env:", process.env.MONGO_URI);
+console.log("Running in:", process.env.NODE_ENV);
+console.log("Mongo URI:", DB_MONGODB);
 
 
 const app = express();
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://timetostudy-project-1.onrender.com' // 👈 your deployed frontend URL
+  'https://timetostudy-project-1.onrender.com', // 👈 your deployed frontend URL
+  'https://timetostudy-project-1.onrender.com',
+  'https://timetostudy-project-1-nrbu.onrender.com', // ✅ your actual frontend domain
+  'https://timetostudy-project-2.onrender.com'
 ];
 
 //cors config. allows cookies and frontend to connect.

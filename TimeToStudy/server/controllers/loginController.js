@@ -1,6 +1,8 @@
 import User from '../models/user.js';
 import jwt from 'jsonwebtoken';
 
+
+
 export const loginUser = async (req, res) => {
   const { username, password } = req.body;
 
