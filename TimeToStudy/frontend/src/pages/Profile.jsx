@@ -99,7 +99,7 @@ export default function Profile() {
     }
 
     try {
-      const response = await authorizedFetch(`${apiUrl}/change-password`, {
+      const response = await authorizedFetch(`${apiUrl}/api/users/change-password`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Include the token in the request headers
