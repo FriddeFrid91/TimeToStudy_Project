@@ -17,10 +17,16 @@ const __dirname = dirname(__filename);
 
 dotenv.config({ path: join(__dirname, '.env') });
 
+const envFile = process.env.NODE_ENV === 'production' ? '.env.production' : '.env';
+dotenv.config({ path: join(__dirname, envFile) });
+
+
 const DB_PORT = process.env.PORT || 5000;
 const DB_MONGODB = process.env.MONGO_URI;
 
 console.log("URI from env:", process.env.MONGO_URI);
+console.log("Running in:", process.env.NODE_ENV);
+console.log("Mongo URI:", DB_MONGODB);
 
 const app = express();
 
