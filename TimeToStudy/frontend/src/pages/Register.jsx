@@ -22,13 +22,19 @@ export default function RegisterForm() {
       return;
     }
     try {
-      const response = await fetch(`${apiUrl}/register`, {
+      const response = await fetch(`${apiUrl}/api/users/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ firstname, lastname, username, email, password }),
       });
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error("Server did not return JSON. Check if you're hitting the correct endpoint.");
+      }
 
       const data = await response.json();
       console.log(data);
@@ -40,8 +46,8 @@ export default function RegisterForm() {
         alert(data.message || 'Registration failed');
       }
     } catch (err) {
-      console.error('Error:', err);
-      alert('Something went wrong!');
+      console.error('❌ Registration error:', err.message);
+      alert(`Registration error: ${err.message}`);
     }
   };
 
