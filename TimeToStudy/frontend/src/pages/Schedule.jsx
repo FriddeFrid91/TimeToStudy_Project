@@ -21,7 +21,7 @@ function School_sch() {
   const handleGetICSData = async (file) => {
   try {
     const safeFileName = file.split('/').pop(); // Remove "schedules/" if present
-    const response = await fetch(`${import.meta.env.VITE_API_URL}api/ics?file=${safeFileName}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/ics?file=${safeFileName}`, {
       method: 'GET',
       credentials: 'include', // Include only if using sessions/cookies
     });
@@ -37,10 +37,9 @@ function School_sch() {
     console.error('Error fetching .ics data:', error.message);
     alert(`Failed to load schedule: ${error.message}`);
     setEvents([]);
+
   }
 };
-
-
 
   // Navigation functions
   const nextWeek = () => {
