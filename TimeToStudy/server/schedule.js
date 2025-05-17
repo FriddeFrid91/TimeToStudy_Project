@@ -34,18 +34,26 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://timetostudy-project-1.onrender.com', // 👈 your deployed frontend URL
-  'https://timetostudy-project-1.onrender.com',
   'https://timetostudy-project-1-nrbu.onrender.com', // ✅ your actual frontend domain
   'https://timetostudy-project-2.onrender.com',
   'https://time2study-qxiv.onrender.com', // ✅ Add this if missing
   'https://timetostudy.onrender.com',     // ✅ Your backend domain (optional)
+  'https://timetostudy-project-ipw2.onrender.com',
+  'https://timetostudy-project-1-rlke.onrender.com'
 ];
 
-//cors config. allows cookies and frontend to connect.
-app.use(cors({
-  origin: allowedOrigins, // Replace with your frontend URL?
-  credentials: true, //allow cookies
-}));
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+app.use(cors('*', corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
