@@ -34,7 +34,7 @@ function School_sch() {
   const [recommendedHours, setRecommendedHours] = useState(null);
 
   // Get ICS data
-  /*const handleGetICSData = async (file) => {
+  const handleGetICSData = async (file) => {
     try {
       const response = await authorizedFetch(`/api/ics?file=${file}`);
 
@@ -56,41 +56,7 @@ function School_sch() {
       setEvents([]);
 
     }
-  };*/
-
-  //Testing a new function.
-
-  const handleGetICSData = async (file) => {
-
-  const cleanFile = file.split('/').pop(); 
-
-  try {
-    const response = await Fetch(`/api/ics?file=${encodeURIComponent(cleanFile)}`);
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        alert('Sorry, this schedule does not exist.');
-      } else {
-        alert('Sorry, this schedule could not be fetched.');
-      }
-      setEvents([]);
-      return;
-    }
-
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new Error("Server did not return JSON.");
-    }
-
-    const data = await response.json();
-    setEvents(data);
-  } catch (error) {
-    console.error('Error fetching .ics data:', error);
-    alert('Error fetching schedule data.');
-    setEvents([]);
-  }
-};
-
+  };
   
 
   // Navigation functions
