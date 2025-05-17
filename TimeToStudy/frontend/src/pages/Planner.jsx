@@ -164,7 +164,7 @@ function School_sch() {
       }
 }
     try {
-      const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/save-planner`, {
+      const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/api/users/save-planner`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -185,6 +185,11 @@ function School_sch() {
       if (!response.ok) {
         throw new Error('Failed to save planner data');
       }
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error("Unexpected server response — not JSON");
+      }
   
       const data = await response.json();
       alert('Study plan saved successfully!');
@@ -192,6 +197,7 @@ function School_sch() {
       console.log('Planner data saved successfully:', data);
     } catch (error) {
       console.error('Error saving planner data:', error);
+      alert(`Failed to save planner: ${error.message}`);
     }
   }
 
@@ -203,16 +209,23 @@ function School_sch() {
       return;
     }
     try {
-      const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/delete-planner?plannerId=${plannerId}`, {
+      const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/api/users/delete-planner?plannerId=${plannerId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}` // Include the token in the request headers
         },
         body: JSON.stringify({ plannerId }),
       });
+      
       if (!response.ok) {
         throw new Error('Failed to delete planner data');
       }
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error("Unexpected server response — not JSON");
+      }
+
       const data = await response.json();
       alert('Study plan deleted successfully!');
       console.log('Planner data deleted successfully:', data);
@@ -232,7 +245,7 @@ function School_sch() {
     }
 
     try {
-      const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/users-planner`, {
+      const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/api/users/users-planner`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -249,6 +262,11 @@ function School_sch() {
 
       if (!response.ok) {
         throw new Error("Failed to fetch planner data.");
+      }
+
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error("Unexpected server response — not JSON");
       }
 
       const data = await response.json();

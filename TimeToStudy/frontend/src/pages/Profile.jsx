@@ -30,7 +30,7 @@ export default function Profile() {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await authorizedFetch(`${apiUrl}/profile`, {
+        const response = await authorizedFetch(`${apiUrl}/users/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Include the token in the request headers
@@ -42,8 +42,6 @@ export default function Profile() {
         setFirstname(data.firstname);
         setLastname(data.lastname);
         setEmail(data.email);
-
-       
 
       } catch (err) {
         console.error('Error:', err);

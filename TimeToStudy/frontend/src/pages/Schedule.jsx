@@ -18,7 +18,6 @@ function School_sch() {
   const [program, setProgram] = useState('');
   const [year, setYear] = useState('');
 
-  // Get ICS data
   const handleGetICSData = async (file) => {
   try {
     const safeFileName = file.split('/').pop(); // Remove "schedules/" if present
@@ -40,6 +39,7 @@ function School_sch() {
     setEvents([]);
   }
 };
+
 
 
   // Navigation functions
