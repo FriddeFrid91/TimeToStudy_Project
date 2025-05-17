@@ -36,7 +36,9 @@ const allowedOrigins = [
   'https://timetostudy-project-1.onrender.com', // 👈 your deployed frontend URL
   'https://timetostudy-project-1.onrender.com',
   'https://timetostudy-project-1-nrbu.onrender.com', // ✅ your actual frontend domain
-  'https://timetostudy-project-2.onrender.com'
+  'https://timetostudy-project-2.onrender.com',
+  'https://time2study-qxiv.onrender.com', // ✅ Add this if missing
+  'https://timetostudy.onrender.com',     // ✅ Your backend domain (optional)
 ];
 
 //cors config. allows cookies and frontend to connect.
