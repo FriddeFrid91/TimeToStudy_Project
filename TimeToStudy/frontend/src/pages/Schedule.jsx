@@ -21,6 +21,8 @@ function School_sch() {
   const handleGetICSData = async (file) => {
   try {
     const safeFileName = file.split('/').pop(); // Remove "schedules/" if present
+    console.log('📦 Fetching ICS file:', safeFileName); // <== ADD THIS LINE
+
     const response = await fetch(`${import.meta.env.VITE_API_URL}api/ics?file=${safeFileName}`, {
       method: 'GET',
       credentials: 'include', // Include only if using sessions/cookies
