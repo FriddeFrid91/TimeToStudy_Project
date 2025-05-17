@@ -4,6 +4,10 @@ import './styles/App.css';
 import './styles/Home.css';
 import { useState } from 'react';
 
+// ✅ Import images correctly from src/assets
+import logo from './assets/logo (1).png';
+import homeIcon from './assets/home.png';
+import aboutIcon from './assets/about-us.png';
 
 export default function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -12,10 +16,10 @@ export default function Layout() {
     <div>
       <div className="layout">
         <header className="header">
-        <Link to="/" className="title">
-          <img src="src/assets/logo (1).png" alt="Logo" className="logo" />
-          <h1>Time2Study</h1>
-        </Link>
+          <Link to="/" className="title">
+            <img src={logo} alt="Logo" className="logo" />
+            <h1>Time2Study</h1>
+          </Link>
         </header>
 
         <nav className="right-side-navbar">
@@ -26,8 +30,18 @@ export default function Layout() {
           </div>
 
           <ul className="navbar-links">
-            <li><Link to="/"><img src="src/assets/home.png" alt="log-in"></img><span>Home</span></Link></li>
-            <li><Link to="/about"><img src="src/assets/about-us.png" alt="about us"></img><span>About Us</span></Link></li>
+            <li>
+              <Link to="/">
+                <img src={homeIcon} alt="Home" />
+                <span>Home</span>
+              </Link>
+            </li>
+            <li>
+              <Link to="/about">
+                <img src={aboutIcon} alt="About Us" />
+                <span>About Us</span>
+              </Link>
+            </li>
           </ul>
 
           {/* slide out menu*/} 
@@ -51,7 +65,6 @@ export default function Layout() {
           </div>
         </footer>
       </div>
-
     </div>
   );
 }

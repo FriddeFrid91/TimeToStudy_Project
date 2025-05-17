@@ -4,6 +4,7 @@
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
   "main": "schedule.js",
   "scripts": {
+    "render-install": "npm install; cd frontend;npm install; cd../server; npm install;",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "server": "nodemon server/schedule.js",
     "frontend": "cd frontend && npm run dev",

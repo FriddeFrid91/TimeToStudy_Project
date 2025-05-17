@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Login.css';
 
+// ✅ Import image from src/assets
+import loginPerson from '../assets/login-person.png';
+
 export default function Login() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
@@ -19,11 +22,10 @@ export default function Login() {
       const allowedAdminUsername = 'admin';
       const allowedAdminPassword = 'pokemon';
 
-      // If credentials match, login without backend
       if (username === allowedAdminUsername && password === allowedAdminPassword) {
-        const mockToken = 'mock-admin-token'; // Mock token for admin
+        const mockToken = 'mock-admin-token';
         localStorage.setItem('accessToken', mockToken);
-        localStorage.setItem('isAdmin', 'true'); // Set isAdmin to true for admin
+        localStorage.setItem('isAdmin', 'true');
 
         navigate('/admin', { replace: true });
         return;
@@ -36,10 +38,8 @@ export default function Login() {
     try {
       const response = await fetch(`${apiUrl}/login`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include', // Include cookies in the request
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify({ username, password, role: 'user' }),
       });
 
@@ -47,10 +47,8 @@ export default function Login() {
       console.log('🎟️ accessToken:', data.accessToken);
   
       if (response.ok) {
-        //token is saved and sent to the backend.
-        localStorage.setItem('accessToken', data.accessToken); // save token to local storage
-        console.log('✅ Token saved, navigating...');
-        localStorage.setItem('isAdmin', 'false'); // set isAdmin to false for regular users
+        localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('isAdmin', 'false');
         alert("You're logged in!");
         navigate('/dashboard', { replace: true });
       } else {
@@ -64,7 +62,7 @@ export default function Login() {
   return (
     <div className="login-form">
       <form onSubmit={handleSubmit}>
-        <img src="src/assets/login-person.png" alt="Logo" className="logoin" />
+        <img src={loginPerson} alt="Logo" className="logoin" />
         <h2>{isAdmin ? 'Admin Login' : 'User Login'}</h2>
         <input
           type="text"
@@ -92,4 +90,3 @@ export default function Login() {
     </div>
   );
 }
-
