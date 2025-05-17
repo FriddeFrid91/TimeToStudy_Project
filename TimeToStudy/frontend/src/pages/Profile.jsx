@@ -27,7 +27,7 @@ export default function Profile() {
 
     const fetchUserProfile = async () => {
       try {
-        const response = await authorizedFetch(`${apiUrl}/profile`, {
+        const response = await authorizedFetch(`${apiUrl}/api/users/profile`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('accessToken')}`, // Include the token in the request headers
