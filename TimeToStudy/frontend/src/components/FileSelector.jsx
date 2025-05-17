@@ -43,7 +43,7 @@ const FileSelector = ({ school, setSchool, program, setProgram, year, setYear, h
             alert('Please select all options!');
             return;
           }
-          const filename = `schedules/${school}_${program}_year${year}.ics`;
+          const filename = `${school.toUpperCase()}_${program}_year${year}.ics`;
           handleGetICSData(filename);
         }}
       >
