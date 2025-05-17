@@ -4,6 +4,7 @@ import ScheduleTable from '../components/ScheduleTable'; // Assuming this works 
 import MobileSchedule from '../components/MobileSchedule'; // Assuming this works as expected
 import { getStartOfWeek, getDatesOfWeek, getWeekNumber } from '../utils/scheduleUtils'; 
 import '../styles/schedulestwo.css';
+import ical from 'ical-parser';
 
 
 const hours = Array.from({ length: 13 }, (_, i) => i + 8);
@@ -25,25 +26,38 @@ function School_sch() {
     console.log('📦 Fetching ICS file:', safeFileName); // <== ADD THIS LINE
 
     const response = await fetch(`${import.meta.env.VITE_API_URL}api/ics?file=${safeFileName}`, {
-
       method: 'GET',
       credentials: 'include', // only if using cookies/session
     });
 
-    const contentType = response.headers.get('content-type');
-    if (!contentType?.includes('application/json')) {
-      throw new Error('Invalid response: not JSON');
+    //const contentType = response.headers.get('content-type');
+    //if (!contentType?.includes('application/json')) {
+    //  throw new Error('Invalid response: not JSON');
+    //}
+
+    if (!response.ok) {
+      throw new Error('Schedule file not found');
     }
 
-    const data = await response.json();
+    const textData = await response.text();
+    const parsed = ical.parse(textData);
+
+    // Extract events
+    const events = parsed.events.map((event) => ({
+      summary: event.summary,
+      start: event.start,
+      end: event.end,
+    }));
+
+    //const data = await response.json();
 
     // Convert JS object (array of events) to JSON string with indentation for readability
-    const jsonString = JSON.stringify(data, null, 2);
+    //const jsonString = JSON.stringify(data, null, 2);
 
-    console.log("ICS Data as JSON string:\n", jsonString);
+    //console.log("ICS Data as JSON string:\n", jsonString);
 
     // You can still set events as the JS object for your app
-    setEvents(data);
+    setEvents(events);
   } catch (error) {
     console.error('Error fetching .ics data:', error.message);
     alert(`Failed to load schedule: ${error.message}`);
