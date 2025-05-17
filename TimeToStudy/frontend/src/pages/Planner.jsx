@@ -57,7 +57,7 @@ function School_sch() {
 
     }
   };*/
-  
+
   //Testing a new function.
 
   const handleGetICSData = async (file) => {
@@ -65,7 +65,7 @@ function School_sch() {
   const cleanFile = file.split('/').pop(); 
 
   try {
-    const response = await authorizedFetch(`/api/ics?file=${encodeURIComponent(cleanFile)}`);
+    const response = await Fetch(`/api/ics?file=${encodeURIComponent(cleanFile)}`);
 
     if (!response.ok) {
       if (response.status === 404) {
