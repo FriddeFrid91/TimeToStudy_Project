@@ -33,7 +33,7 @@ export default function Dashboard() {
 
     const fetchStudyPlanner = async () => {
       try {
-        const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/users-planner`);
+        const response = await authorizedFetch(`${import.meta.env.VITE_API_URL}/api/users/users-planner`);
 
         if (!response.ok) {
           throw new Error("Failed to fetch study planner data");

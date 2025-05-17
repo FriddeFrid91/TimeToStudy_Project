@@ -8,7 +8,7 @@ export default function Logout() {
   useEffect(() => {
     const logout = async () => {
       try {
-        await authorizedFetch(`${import.meta.env.VITE_API_URL}/logout`, {
+        await authorizedFetch(`${import.meta.env.VITE_API_URL}/api/users/logout`, {
           method: 'POST',
           credentials: 'include', //
         });

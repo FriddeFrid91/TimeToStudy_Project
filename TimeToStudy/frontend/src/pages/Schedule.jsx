@@ -19,30 +19,14 @@ function School_sch() {
   const [year, setYear] = useState('');
 
   const handleGetICSData = async (file) => {
-  try {
-
-    // Always pass only the base file name
-    const safeFileName = file.split('/').pop(); // strips "schedules/" if it exists
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/ics?file=${safeFileName}`, {
-      method: 'GET',
-      credentials: 'include', // include if using cookies
-    });
-
-    const contentType = response.headers.get('content-type');
-    if (!contentType || !contentType.includes('application/json')) {
-      throw new Error("Invalid response: Not JSON");
+    try {
+      const response = await fetch(`/api/ics?file=${file}`);
+      const data = await response.json();
+      setEvents(data);
+    } catch (error) {
+      console.error('Error fetching .ics data:', error);
     }
-
-    const data = await response.json();
-    setEvents(data);
-  } catch (error) {
-    console.error('Error fetching .ics data:', error.message);
-    alert(`Failed to load schedule: ${error.message}`);
-
-    setEvents([]); // Clear any old data
-  }
-};
+  };
 
 
   // Navigation functions
