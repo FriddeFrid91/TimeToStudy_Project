@@ -59,7 +59,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Teseting Static folder for .ics files
-app.use('/schema', express.static(path.join(__dirname, '/schedules')));
+app.use('/schema', express.static(path.join(__dirname, 'schedules')));
 
 app.get('/', (req, res) => {
   res.send("Time To Study");
