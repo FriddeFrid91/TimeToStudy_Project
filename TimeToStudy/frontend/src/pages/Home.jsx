@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+import yellowPerson from '../assets/yellow-person.png';
+import yellowSchedule from '../assets/yellow-schedule.png';
+import yellowPlanner from '../assets/yellow-planner.png';
 
 export default function Home() {
   return (
@@ -19,17 +22,17 @@ export default function Home() {
 
       <div className="hero-boxes">
         <div className="hero-box" data-aos="zoom-in" data-aos-duration="500">
-          <img src="src/assets/yellow-person.png" alt="yellow-person" />
+          <img src={yellowPerson} alt="yellow-person" />
           <p>Log in or register your account to start your journey!</p>
         </div>
 
         <div className="hero-box" data-aos="zoom-in" data-aos-duration="800">
-          <img src="src/assets/yellow-schedule.png" alt="yellow-calendar" />
+          <img src={yellowSchedule} alt="yellow-calendar" />
           <p>Pick your school program schedule</p>
         </div>
 
         <div className="hero-box" data-aos="zoom-in" data-aos-duration="900">
-          <img src="src/assets/yellow-planner.png" alt="yellow-plan" />
+          <img src={yellowPlanner} alt="yellow-plan" />
           <p>Let the system generate your personalized study plan</p>
         </div>
 
