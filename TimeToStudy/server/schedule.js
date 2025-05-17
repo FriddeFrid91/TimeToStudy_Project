@@ -29,10 +29,15 @@ console.log("Mongo URI:", DB_MONGODB);
 
 const app = express();
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://timetostudy-project-1.onrender.com',
+  'https://timetostudy-project-1-nrbu.onrender.com' // ✅ your actual frontend domain
+];
+
 //cors config. allows cookies and frontend to connect.
 app.use(cors({
-  https://timetostudy-project-1-nrbu.onrender.com
-  origin: 'http://localhost:5173', // Replace with your frontend URL?
+  origin: allowedOrigins, // Replace with your frontend URL?
   credentials: true, //allow cookies
 }));
 
