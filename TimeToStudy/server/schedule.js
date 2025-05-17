@@ -31,6 +31,7 @@ const app = express();
 
 //cors config. allows cookies and frontend to connect.
 app.use(cors({
+  https://timetostudy-project-1-nrbu.onrender.com
   origin: 'http://localhost:5173', // Replace with your frontend URL?
   credentials: true, //allow cookies
 }));
