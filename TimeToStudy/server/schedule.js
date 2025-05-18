@@ -64,7 +64,7 @@ app.get('/api/ics', (req, res) => {
     return res.status(400).json({ error: 'No file specified' });
   }
 
-  const icsFilePath = path.join(__dirname, 'schedules', fileName); //changes correct file
+  const icsFilePath = path.join(__dirname, '../schedules', fileName); //changes correct file
 
   fs.readFile(icsFilePath, 'utf8', (err, data) => {
     if (err) {
@@ -129,7 +129,7 @@ mongoose.connect(DB_MONGODB)
 
   app.listen(DB_PORT, () => {
     // ✅ Add this to list the files inside the deployed schedules folder
-    const schedulePath = path.join(__dirname, 'schedules');
+    const schedulePath = path.join(__dirname, '../schedules');
     fs.readdir(schedulePath, (err, files) => {
       if (err) {
         console.error('❌ Could not read /schedules folder:', err);
