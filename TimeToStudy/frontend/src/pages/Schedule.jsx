@@ -20,39 +20,15 @@ function School_sch() {
   const [year, setYear] = useState('');
 
   const handleGetICSData = async (file) => {
-  try {
-    // Clean the file name (remove any folder prefix)
-    const safeFileName = file.split('/').pop();
-
-    const response = await fetch(`${import.meta.env.VITE_API_URL}ics?file=${safeFileName}`, {
-      method: 'GET',
-      credentials: 'include', // only if you're using cookies/sessions
-    });
-
-    if (!response.ok) {
-      throw new Error(`Schedule file not found or server error (${response.status})`);
+    try {
+      console.log("📦 Requesting ICS file:", file); 
+      const response = await fetch(`/api/ics?file=${file}`);
+      const data = await response.json();
+      setEvents(data);
+    } catch (error) {
+      console.error('Error fetching .ics data:', error);
     }
-
-    // Expect the backend to return JSON-parsed events
-    const data = await response.json();
-
-    if (!Array.isArray(data)) {
-      throw new Error('Invalid data format: expected an array of events');
-    }
-
-    console.log('✅ Fetched ICS Events:', data); // Debugging
-
-    // Set events into state
-    setEvents(data);
-
-  } catch (error) {
-    console.error('❌ Error fetching .ics data:', error.message);
-    alert(`Failed to load schedule: ${error.message}`);
-
-    setEvents([]); // Clear previous events on error
-  }
-};
-
+  };
 
 
 
